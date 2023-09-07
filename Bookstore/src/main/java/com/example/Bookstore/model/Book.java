@@ -1,18 +1,26 @@
 package com.example.Bookstore.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+@Entity
 public class Book {
-	private String title;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
 	private String author;
-	private int publicationYear;
+	private String title;
 	private String isbn;
+	private int publicationYear;;
 	private double price; // or BigDecimal?
 
 	// Constructors:
 	public Book() {
-		super();
 	}
 
-	public Book(String title, String author, int publicationYear, String isbn, double price) {
+	public Book(String author, String title, String isbn, int publicationYear, double price) {
 		super();
 		this.title = title;
 		this.author = author;
@@ -22,12 +30,12 @@ public class Book {
 	}
 
 	// Methods:
-	public String getTitle() {
-		return title;
+	public Long getId() {
+		return id;
 	}
 
-	public void setTitle(String title) {
-		this.title = title;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getAuthor() {
@@ -38,12 +46,12 @@ public class Book {
 		this.author = author;
 	}
 
-	public int getPublicationYear() {
-		return publicationYear;
+	public String getTitle() {
+		return title;
 	}
 
-	public void setPublicationYear(int publicationYear) {
-		this.publicationYear = publicationYear;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 	public String getIsbn() {
@@ -52,6 +60,14 @@ public class Book {
 
 	public void setIsbn(String isbn) {
 		this.isbn = isbn;
+	}
+
+	public int getPublicationYear() {
+		return publicationYear;
+	}
+
+	public void setPublicationYear(int publicationYear) {
+		this.publicationYear = publicationYear;
 	}
 
 	public double getPrice() {
