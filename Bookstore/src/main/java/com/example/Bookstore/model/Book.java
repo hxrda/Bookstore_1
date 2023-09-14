@@ -1,9 +1,13 @@
 package com.example.Bookstore.model;
 
+//Alternatively: import jakarta.persistence.*;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Book {
@@ -14,19 +18,24 @@ public class Book {
 	private String title;
 	private String isbn;
 	private int publicationYear;;
-	private double price; // or BigDecimal?
+	private double price;
+
+	@ManyToOne
+	@JoinColumn(name = "categoryId")
+	private Category category;
 
 	// Constructors:
 	public Book() {
 	}
 
-	public Book(String author, String title, String isbn, int publicationYear, double price) {
+	public Book(String author, String title, String isbn, int publicationYear, double price, Category category) {
 		super();
 		this.title = title;
 		this.author = author;
 		this.publicationYear = publicationYear;
 		this.isbn = isbn;
 		this.price = price;
+		this.category = category;
 	}
 
 	// Methods:
@@ -76,6 +85,26 @@ public class Book {
 
 	public void setPrice(double price) {
 		this.price = price;
+	}
+
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
+	}
+
+	@Override
+	public String toString() {
+		if (this.category != null)
+			return "Book [id=" + id + ", author=" + author + ", title=" + title + ", isbn=" + isbn
+					+ ", publicationYear=" + publicationYear + ", price=" + price + ", category=" + this.getCategory()
+					+ "]";
+		else
+			return "Book [id=" + id + ", author=" + author + ", title=" + title + ", isbn=" + isbn
+					+ ", publicationYear=" + publicationYear + ", price=" + price + "]";
+
 	}
 
 }

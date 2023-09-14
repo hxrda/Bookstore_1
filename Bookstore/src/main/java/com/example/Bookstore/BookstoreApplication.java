@@ -10,6 +10,8 @@ import org.springframework.context.annotation.Bean;
 
 import com.example.Bookstore.model.Book;
 import com.example.Bookstore.model.BookRepository;
+import com.example.Bookstore.model.Category;
+import com.example.Bookstore.model.CategoryRepository;
 
 
 @SpringBootApplication
@@ -24,21 +26,34 @@ public class BookstoreApplication {
 	// Book fields: (id), author, title, isbn, publicationYear-[int], price-[double]
 
 	@Bean
-	public CommandLineRunner studentDemo(BookRepository repository) {
+	public CommandLineRunner studentDemo(BookRepository brepository, CategoryRepository crepository) {
 		return (args) -> {
+			//Alternatively: syso
+			log.info("save a couple of categories");
+			crepository.save(new Category("Realism"));
+			crepository.save(new Category("Dystopian"));
+			crepository.save(new Category("Psychological"));
+			//crepository.save(new Category("Autobiography"));
+			//crepository.save(new Category("Mystery"));
+			
+			
+			
 			log.info("save a couple of students");
-			repository.save(new Book("Ernest Hemingway", "A farewell to Arms", "1232323-21", 1929, 11.99));
-			repository.save(new Book("George Orwell", "Animal Farm", "2212343-5", 1945, 6.99));
-			repository.save(new Book("Fyodor Dostoevsky", "The Idiot", "03757033-4", 1869, 16.41));
+			brepository.save(new Book("Ernest Hemingway", "A farewell to Arms", "1232323-21", 1929, 11.99, crepository.findByName("Realism").get(0)));
+			brepository.save(new Book("George Orwell", "Animal Farm", "2212343-5", 1945, 6.99, crepository.findByName("Dystopian").get(0)));
+			brepository.save(new Book("Fyodor Dostoevsky", "The Idiot", "03757033-4", 1869, 16.41, crepository.findByName("Psychological").get(0)));
+			
 
+			/*
 			log.info("fetch all books");
-			for (Book book : repository.findAll()) {
+			for (Book book : brepository.findAll()) {
 				log.info(book.toString());
 			}
 			log.info("fetch all books by author");
-			for (Book book : repository.findByAuthor("author")) {
+			for (Book book : brepository.findByAuthor("author")) {
 				log.info(book.toString());
 			}
+			*/
 
 		};
 	}
