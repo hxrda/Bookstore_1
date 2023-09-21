@@ -2,6 +2,8 @@ package com.example.Bookstore.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 // Alternatively: import jakarta.persistence.*;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -18,6 +20,7 @@ public class Category {
 	private Long categoryId;
 	private String name;
 
+	@JsonIgnore
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "category")
 	private List<Book> books;  //List: because department can have many students
 
