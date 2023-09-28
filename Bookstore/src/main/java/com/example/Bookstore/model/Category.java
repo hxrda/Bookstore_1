@@ -12,7 +12,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 
-
 @Entity
 public class Category {
 	@Id
@@ -22,9 +21,9 @@ public class Category {
 
 	@JsonIgnore
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "category")
-	private List<Book> books;  //List: because department can have many students
+	private List<Book> books; // List: because department can have many students
 
-	//Constructors:
+	// Constructors:
 	public Category() {
 	}
 
@@ -33,7 +32,7 @@ public class Category {
 		this.name = name;
 	}
 
-	//Methods:
+	// Methods:
 	public Long getCategoryId() {
 		return categoryId;
 	}
@@ -62,9 +61,5 @@ public class Category {
 	public String toString() {
 		return "Category [categoryId=" + categoryId + ", name=" + name + ", books=" + books + "]";
 	}
-	
-	
-	
-	
 
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 
 <head>
 	<title>Booklist</title>
@@ -8,36 +8,63 @@
 </head>
 
 <body>
-	<h1>Books</h1>
+	<div class="container">
 
-	<!--Book fields: (id), author, title, isbn, publicationYear-[int], price-[double]-->
-	<table class="table table-striped">
-		<tr>
-			<th>Author</th>
-			<th>Title</th>
-			<th>ISBN</th>
-			<th>Year</th>
-			<th>Price</th>
-			<th>Category</th>
-			
-		</tr>
-		<tr th:each="book : ${books}">
-			<td th:text="${book.author}"></td>
-			<td th:text="${book.title}"></td>
-			<td th:text="${book.isbn}"></td>
-			<td th:text="${book.publicationYear}"></td>
-			<td th:text="${book.price}"></td>
-			<td th:text="${book.category.name}"></td>
-			<td><a th:href="@{/delete/{id}(id=${book.id})}" class="btn btn-danger">Delete</a></td>
-			<td><a th:href="@{/edit/{id}(id=${book.id})}" class="btn btn-primary" >Edit</a></td>
-		</tr>
-	</table>
-	
-	<a href="/add" class="btn btn-success">Add Book</a>
+		<div class="col-md-4">
+			<h1>Books</h1>
+		</div>
 
-    <!-- Alternatively: -->
-	    <!--<button class="btn btn-success" type="button" onclick="window.location.href='/add'">Add Book</button>-->
+		<!--Show authenticated username-->
+		<div class="col-md-4">
+			<span sec:authentication="name">Name</span>
+		</div>
 
+		<!--Logout-->
+		<div class="col-md-4" style="padding:20px 0">
+			<form th:action="@{/logout}" method="post">
+				<input type="submit" value="Sign Out" class="btn btn-sm btn-danger" />
+			</form>
+		</div>
+
+		<!--Book fields: (id), author, title, isbn, publicationYear-[int], price-[double]-->
+		<table class="table table-striped">
+			<tr>
+				<th>Author</th>
+				<th>Title</th>
+				<th>ISBN</th>
+				<th>Year</th>
+				<th>Price</th>
+				<th>Category</th>
+				<th sec:authorize="hasAuthority('ADMIN')"> </th>
+			</tr>
+			<tr th:each="book : ${books}">
+				<td th:text="${book.author}"></td>
+				<td th:text="${book.title}"></td>
+				<td th:text="${book.isbn}"></td>
+				<td th:text="${book.publicationYear}"></td>
+				<td th:text="${book.price}"></td>
+				<td th:text="${book.category.name}"></td>
+				<!--<td><a th:href="@{/delete/{id}(id=${book.id})}" class="btn btn-danger">Delete</a></td>-->
+				<!--<td><a th:href="@{/edit/{id}(id=${book.id})}" class="btn btn-primary">Edit</a></td>-->
+
+				<!--Show functionalities only for ADMIN user role-->
+				<td sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/delete/{id}(id=${book.id})}"
+						class="btn btn-xs btn-danger">Delete</a></td>
+				<td sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/edit/{id}(id=${book.id})}"
+						class="btn btn-xs btn-primary">Edit</a></td>
+			</tr>
+		</table>
+
+		<!--<a href="/add" class="btn btn-success">Add Book</a>-->
+
+		<!--Show functionality only to ADMIN user role-->
+		<div sec:authorize="hasAuthority('ADMIN')">
+			<a href="/add" class="btn btn-success">Add Book</a>
+		</div>
+
+		<!-- Alternatively: -->
+		<!--<button class="btn btn-success" type="button" onclick="window.location.href='/add'">Add Book</button>-->
+	</div>
 </body>
 
 </html>
